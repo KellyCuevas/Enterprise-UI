@@ -10,23 +10,26 @@ it('returns an empty array as the initial state', () => {
   expect(reducer(undefined, { type: 'noop' })).toEqual([]);
 });
 
-it.todo('supports adding an item with the correct name', () => {
-  expect.hasAssertions();
+it('supports adding an item with the correct name', () => {
   const result = reducer([], add({ name: 'iPhone' }));
+  expect(result).toEqual([expect.objectContaining({ name: 'iPhone' })]);
 });
 
-it.todo('prefixes ids with "item-"', () => {
-  expect.hasAssertions();
+it('prefixes ids with "item-"', () => {
   const result = reducer([], add({ name: 'iPhone' }));
+  expect(result).toEqual([
+    expect.objectContaining({ id: expect.stringMatching(/^item-/) }),
+  ]);
 });
 
-it.todo('defaults new items to a packed status of false', () => {
-  expect.hasAssertions();
+it('defaults new items to a packed status of false', () => {
   const result = reducer([], add({ name: 'iPhone' }));
+  const [item] = result;
+  expect(result.length).toBe(1);
+  expect(item.packed).toBe(false);
 });
 
-it.todo('supports removing an item', () => {
-  expect.hasAssertions();
+it('supports removing an item', () => {
   const state = [
     {
       id: '1',
@@ -36,6 +39,7 @@ it.todo('supports removing an item', () => {
   ];
 
   const result = reducer(state, remove({ id: '1' }));
+  expect(result).not.toContain(expect.objectContaining({ id: '1' }));
 });
 
 it.todo('supports toggling an item', () => {
